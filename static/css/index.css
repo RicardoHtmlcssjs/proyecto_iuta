@@ -1,0 +1,17 @@
+.cl_form_ini{
+	background-color: rgba(0, 0, 0, 0.8);
+}
+/*centrar texto*/
+.text_center{
+	text-align: center;
+}
+/*100% ancho*/
+.mx_width{
+	width: 100%;
+}
+/*tabla de datable*/
+/*titulo de la tabla*/
+.tit_tabla_dt{
+	text-shadow: 1px 1px 10px red;
+	font-size: 60px;
+}
