@@ -11,17 +11,23 @@ class Ajax{
 				{"data": "nombre"},
 				{"data": "telefono"},
 				{"data": "correo"},
-				{"data": "fecha"},
-				// {"data": "status"}
+				{"data": "fec_venci"},
 				{
                     "data": null
                     ,
                     orderable: true,
                     className: 'text-center',
                     render: function(data, type, row, meta) {
-                        console.log()
-                        
                         return "<div  class='d-flex align-items-center'><p class='mr-2'>"+ row.status +"</p><p class='bg-"+row.color_status+"' style='width: 15px; height: 15px;'></p></div>";
+                    }
+                },
+				{
+                    "data": null
+                    ,
+                    orderable: true,
+                    className: 'text-center',
+                    render: function(data, type, row, meta) {
+                        return "<div><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal()'><i class='fa-solid fa-money-bill-1-wave'></i></button><button class='btn btn-light btn-sm' onclick='alert("+ row.id_cli +")'><i class='fa-solid fa-user-pen'></i></button></div>";
                     }
                 }
 			],
@@ -43,6 +49,23 @@ class Ajax{
 			}
 		});
 	}
+	// mostrar modal
+	mostrar_modal(){
+        $.ajax({
+			url: "/mos_modal1",
+			type: "POST",
+			success: function(result){
+				// alert(result);
+				$("#exampleModal1").modal('show');
+				// $('#empModal').modal('show');
+			},
+			error: function(error){
+				console.log(error);
+			}
+	
+		});
+	}
+	
 }
 
-let administrador = new Ajax();
+let ajax = new Ajax();

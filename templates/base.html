@@ -116,6 +116,29 @@
     {% endif %}
     {% block body %}
     {% endblock %}
+    
+     <!-- Footer Start -->
+     <div class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
+        <div class="row pt-5" style="justify-content: space-between;">
+            <div class="col-lg-4 col-md-6 mb-5">
+                <h4 class="text-primary mb-4">Dirección</h4>
+                <p><i class="fa fa-map-marker-alt mr-2"></i>Cabotaje, Calle Miquilen, Sector el Faro</p>
+                <p><i class="fa fa-phone-alt mr-2"></i>+58 412-491-7213 <br><i class="fa fa-phone-alt mr-2"></i>  +58 412 856-69-80</p>
+                <p><i class="fa fa-envelope mr-2"></i>guerreros_gym2024@gmail.com</p>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-primary mb-4">Horario</h4>
+                <h5 class="text-white">Lunes - Sabado</h5>
+                <p>7.00 AM - 5.00 PM</p>
+            </div>
+        </div>
+        <div class="container border-top border-dark pt-5">
+            <p class="m-0 text-center text-white">
+                &copy; Guerreros Gym. Todos los derechos reservados. Diseñado por Izaac Angulo y Ricardo Torres
+            </p>
+        </div>
+    </div>
+    <!-- Footer End -->
     <!-- Back to Top -->
     <a href="#" class="btn btn-outline-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
@@ -131,7 +154,9 @@
     <script type="text/javascript" src="{{ url_for('static', filename='lib/fontawesome-free-6.5.1-web/js/all.js') }}"></script>
     
     <!-- clase administrador -->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/class_ajax.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='class_js/class_ajax.js') }}"></script>
+    <!-- clase acciones -->
+    <script type="text/javascript" src="{{ url_for('static', filename='class_js/class_acciones.js') }}"></script>
     
     <!-- datatable js  -->
     <script type="text/javascript" src="{{ url_for('static', filename='lib/DataTables-1.13.6/js/jquery.dataTables.min.js') }}"></script>

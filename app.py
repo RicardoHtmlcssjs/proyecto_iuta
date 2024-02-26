@@ -31,7 +31,7 @@ def ini_sesion_usu():
     if login == True:
         return redirect('/inicio')
     else:
-        return render_template('index.html', log_error=1, text_error='Usuario o contraseña incorrectos', usuario=usuario)
+        return render_template('index.html', log_error=1, text_error='Usuario o contraseña incorrecto', usuario=usuario)
 # personal se accede como administrador
 @app.route("/inicio")
 def inicio():
@@ -47,13 +47,17 @@ def inicio():
 # personal como administrador
 @app.route("/administrador/personal")
 def administrador_personal():
-    return render_template('administrador_personal.html', login=1, administrador=1, llamar_metodo='administrador.tabla_personal()', titulo_tabla='Listado de Clientes')
+    return render_template('administrador_personal.html', login=1, administrador=1, llamar_metodo='ajax.tabla_personal()', titulo_tabla='Listado de Clientes')
 # mostrar personal
 @app.route("/mostrar_personal_adm", methods=["POST"])
 def mostrar_personal_adm():
     # print(jsonify(Usuarios().datos_tabla_json()))
     print(Usuarios().datos_tabla_json())
     return Usuarios().datos_tabla_json()
+# mostrar modal
+@app.route("/mos_modal1", methods=["POST"])
+def mos_modal1():
+    return "modal"
 #ini servidor
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
