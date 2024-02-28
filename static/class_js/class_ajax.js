@@ -55,7 +55,8 @@ class Ajax{
 			url: "/mos_modal1",
 			type: "POST",
 			success: function(result){
-				// alert(result);
+				// alert($("#exampleModal1").val());
+
 				$("#exampleModal1").modal('show');
 				// $('#empModal').modal('show');
 			},
