@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, session, jsonify
+import json
 from model.class_usuario import Usuarios
 from model.class_acciones import Acciones
 
@@ -47,12 +48,10 @@ def inicio():
 # personal como administrador
 @app.route("/administrador/personal")
 def administrador_personal():
-    return render_template('administrador_personal.html', login=1, administrador=1, llamar_metodo='ajax.tabla_personal()', titulo_tabla='Listado de Clientes')
+    return render_template('administrador_personal.html', login=1, administrador=1, llamar_metodo="ajax.tabla_personal" ,url ="/mostrar_personal_adm", type="POST",  titulo_tabla='Listado de Clientes')
 # mostrar personal
 @app.route("/mostrar_personal_adm", methods=["POST"])
 def mostrar_personal_adm():
-    # print(jsonify(Usuarios().datos_tabla_json()))
-    print(Usuarios().datos_tabla_json())
     return Usuarios().datos_tabla_json()
 # mostrar modal
 @app.route("/mos_modal1", methods=["POST"])

@@ -1,12 +1,13 @@
 class Ajax{
-	tabla_personal(){
+	tabla_personal(url, type){
 		$('#datatable_users').DataTable({
 			"ajax":{
-				"url": "/mostrar_personal_adm",
-				"type": "POST",
+				"url": url,
+				"type": type,
 				"dataSrc":""
 			},
-			"columns":[
+			"columns":
+			[
 				{"data": "cedula"},
 				{"data": "nombre"},
 				{"data": "telefono"},
@@ -27,7 +28,7 @@ class Ajax{
                     orderable: true,
                     className: 'text-center',
                     render: function(data, type, row, meta) {
-                        return "<div><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal()'><i class='fa-solid fa-money-bill-1-wave'></i></button><button class='btn btn-light btn-sm' onclick='alert("+ row.id_cli +")'><i class='fa-solid fa-user-pen'></i></button></div>";
+                        return "<div><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal_sn_para(`/mos_modal1`,`POST`,``)'><i class='fa-solid fa-money-bill-1-wave'></i></button><button class='btn btn-light btn-sm' onclick='alert("+ row.id_cli +")'><i class='fa-solid fa-user-pen'></i></button></div>";
                     }
                 }
 			],
@@ -50,15 +51,13 @@ class Ajax{
 		});
 	}
 	// mostrar modal
-	mostrar_modal(){
+	mostrar_modal_sn_para(url, type, data){
         $.ajax({
-			url: "/mos_modal1",
-			type: "POST",
+			url: url,
+			type: type,
+			data: data,
 			success: function(result){
-				// alert($("#exampleModal1").val());
-
 				$("#exampleModal1").modal('show');
-				// $('#empModal').modal('show');
 			},
 			error: function(error){
 				console.log(error);

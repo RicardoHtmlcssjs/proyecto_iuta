@@ -8,14 +8,11 @@ class Usuarios():
         datos_usu = Db().fetchall("SELECT id_usuario, usuario, contrasena, fk_role FROM usuarios WHERE usuario = '"+usu_log+"'")
         contra = ""
         for row in datos_usu:
-            id_usu = row[0]
-            usu = row[1]
             contra = row[2]
-            role = row[3]
         if contrasena == contra:
-            session['id_usu_log'] = id_usu
-            session['usu_log'] = usu
-            session['fk_role'] = role
+            session['id_usu_log'] = row[0]
+            session['usu_log'] = row[1]
+            session['fk_role'] = row[3]
             return True
         else:
             return False

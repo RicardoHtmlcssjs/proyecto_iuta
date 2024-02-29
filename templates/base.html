@@ -153,7 +153,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='lib/DataTables-1.13.6/js/dataTables.bootstrap5.min.js') }}"></script>
     <!-- llamar funciones de js -->
     <script type="text/javascript">
-        {{ llamar_metodo }}
+        {{ llamar_metodo }}("{{ url }}", "{{ type }}");
     </script>
 </body>
 </html>
