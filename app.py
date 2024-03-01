@@ -57,6 +57,10 @@ def mostrar_personal_adm():
 @app.route("/mos_modal1", methods=["POST"])
 def mos_modal1():
     return "modal"
+# validar formulario de agregar clientes
+@app.route("/validar_cam_agre_cliente", methods=["POST"])
+def validar_cam_agre_cliente():
+    return "hola"
 #ini servidor
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

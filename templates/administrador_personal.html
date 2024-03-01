@@ -6,7 +6,7 @@
             <h1 class="text-center tit_tabla_dt" >{{ titulo_tabla }}</h1>
         </div>
         <div class="my-2">
-            <button type="button" class="btn btn-dark" id="agr_cli" name="agr_cli" onclick="alert()">Agregar cliente <i class="fa-solid fa-user-plus ml-1"></i></button>
+            <button type="button" class="btn btn-dark" id="agr_cli" name="agr_cli" onclick="ajax.mostrar_modal_sn_para(`/mos_modal1`,`POST`,``,0, acciones.modal_agregar_cliente())">Agregar cliente <i class="fa-solid fa-user-plus ml-1"></i></button>
         </div>
         <table class="table table-dark table-hover table-striped shadow-lg" style='width: 100%;' id='datatable_users'>
             <thead class='thead_tab1'>
@@ -37,7 +37,7 @@
                 <button type="button" class="btn-close bg-danger btn_cerrar_mod1" data-bs-dismiss="modal" aria-label="Close">x</button>
             </div>
             <div class="modal-body">
-                    <h2 class="text-center" id='id_tit_mod1'>Entregar expediente</h2>
+                    <h2 class="text-center" id='id_tit_mod1'>Reportar pago de mensualidad</h2>
                     <!-- mb-3  margin-bottom de 3 unidades -->
                     <form action="">
                         <div class="mb-3">
