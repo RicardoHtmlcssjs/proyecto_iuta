@@ -24,10 +24,9 @@ class Db:
         results = self.cursor.fetchall()
         return results
         # #actualizar registro
-        # def actualizar(self, sql):
-        #     conexion = self.connection
-        #     with conexion.cursor() as cursor:
-        #         cursor.execute(sql,parameters)
-        #     conexion.commit()
-        #     conexion.close()
-        # return True
+    def ins(self, sql):
+        self.cursor.execute(sql)
+        self.connection.commit()
+        self.cursor.close()
+        self.connection.close()
+        return True

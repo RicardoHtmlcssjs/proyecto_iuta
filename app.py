@@ -61,6 +61,16 @@ def mos_modal1():
 @app.route("/validar_cam_agre_cliente", methods=["POST"])
 def validar_cam_agre_cliente():
     return "hola"
+# consultar valores con bbdd y ingresar registros
+@app.route("/env_for_agre_cliente", methods=["POST"])
+def env_for_agre_cliente():
+    nombre = request.form["nombre"]
+    apellido = request.form["apellido"]
+    cedula = request.form["cedula"]
+    telefono = request.form["telefono"]
+    correo = request.form["correo"]
+    mes_pagar = request.form["mes_pagar"]
+    return Usuarios().ingresar_cliente(nombre, apellido, cedula, telefono, correo, mes_pagar)
 #ini servidor
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

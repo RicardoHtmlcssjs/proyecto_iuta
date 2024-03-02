@@ -50,7 +50,7 @@ class Ajax{
 			}
 		});
 	}
-	// mostrar modal
+	// llamar cual quier modal a mostrar
 	mostrar_modal_sn_para(url, type, data, def, modal){
         $.ajax({
 			url: url,
@@ -133,7 +133,31 @@ class Ajax{
 					array.forEach(element => {
 						$(`#${element}`).html("");
 					});
+					let nombre = $("#nombre").val();
+					let apellido = $("#apellido").val();
+					let cedula = $("#cedula").val();
+					let telefono = $("#telefono").val();
+					let correo = $("#correo").val();
+					let mes_pagar = $("#mes_pagar").val();
+					ajax.env_for_agre_cliente('/env_for_agre_cliente', 'POST', nombre, apellido, cedula, telefono,correo, mes_pagar);
 				}
+			},
+			error: function(error){
+				console.log(error);
+			}
+	
+		});
+	}
+	// verificar y enviar datos ingresados al agregar clientes
+	env_for_agre_cliente(url, type, nombre, apellido, cedula, telefono, correo, mes_pagar){
+        $.ajax({
+			url: url,
+			type: type,
+			data: {
+				nombre, apellido, cedula, telefono, correo, mes_pagar
+			},
+			success: function(result){
+				alert(result);
 			},
 			error: function(error){
 				console.log(error);

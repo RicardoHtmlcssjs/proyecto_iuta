@@ -74,3 +74,25 @@ class Usuarios():
             status = "Moroso"
         
         return  status
+    # ingresar cliente en la bbdd
+    def ingresar_cliente(self, nombre, apellido, cedula, telefono, correo, mes_pagar):
+        exi_ced = Db().fetchall("SELECT cedula FROM usuarios WHERE cedula = "+cedula+"")
+        exi_cor = Db().fetchall("SELECT correo FROM usuarios WHERE correo = '"+correo+"'")
+        cont_exi_ced = ""
+        cont_exi_cor = ""
+        for row in exi_ced:
+            cont_exi_ced = row[0]
+        for row2 in exi_cor:
+            cont_exi_cor = row2[0]
+        if str(cont_exi_ced) == str(cedula):
+            res =  "la cedula ya existe"
+        elif str(cont_exi_cor) == str(correo):
+            res = "El correo ya existe"
+        else:
+            Db().ins("INSERT INTO usuarios (nombre, apellido, cedula, telefono, fk_role, usuario, correo, hora_reg, fecha_reg, contrasena) VALUES ('"+nombre+"', '"+apellido+"', "+cedula+", "+telefono+", 2, '"+nombre+"', '"+correo+"', now(), now(), '"+nombre+"')")
+            tr = Db().fetchall("SELECT id_usuario FROM usuarios")
+            for row3 in tr:
+                id = row3[0] 
+            # Db().ins("INSERT INTO clientes (fecha_reg, hora_reg, fk_usuario, fec_ultimo_pago, fec_venci)")
+            res = "cliente registrado"
+        return res
