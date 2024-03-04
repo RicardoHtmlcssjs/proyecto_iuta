@@ -1,5 +1,6 @@
 from flask import Flask, session
 from datetime import datetime
+import json
 from model.config import Db
 
 class Usuarios():
@@ -110,8 +111,10 @@ class Usuarios():
                 mes_vec = "0"+str(mes_vec)
             fec_vec = "20"+str(ano)+"-"+str(mes_vec)+"-"+str(dia)
             Db().ins("INSERT INTO clientes (fecha_reg, hora_reg, fk_usuario, fec_ultimo_pago, fec_venci) values (now(), now(), "+str(id)+", now(), '"+str(fec_vec)+"')")
+            con_id_cli = Db().fetchall("SELECT id_cliente FROM clientes")
+            for row4 in con_id_cli:
+                id_cli = row4[0]
             id_adm = session['id_usu_log']
-            # areglar
-            Db().ins("INSERT INTO pagos (fk_usu_adm, fk_cliente, fec_pago, cant_mes_pag) VALUES ("+str(id_adm)+", "+str(id)+", now(), "+str(mes_pagar)+")")
-            res = "cliente registrado"
-        return fec_vec
+            Db().ins("INSERT INTO pagos (fk_usu_adm, fk_cliente, fec_pago, cant_mes_pag) VALUES ("+str(id_adm)+", "+str(id_cli)+", now(), "+str(mes_pagar)+")")
+        return "1"
+        

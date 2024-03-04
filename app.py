@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, session, redirect, session, jsonify
-import json
 from model.class_usuario import Usuarios
 from model.class_acciones import Acciones
 
@@ -70,7 +69,14 @@ def env_for_agre_cliente():
     telefono = request.form["telefono"]
     correo = request.form["correo"]
     mes_pagar = request.form["mes_pagar"]
-    return Usuarios().ingresar_cliente(nombre, apellido, cedula, telefono, correo, mes_pagar)
+    Usuarios().ingresar_cliente(nombre, apellido, cedula, telefono, correo, mes_pagar)
+    return "1" 
+
+# reportar pago de inscripcion cliente
+# @app.route("/report_pag_cli", methods=["POST"])
+# def report_pag_cli():
+#     j = request.form["json"]
+#     return Usuarios().reportar_pago_cli(j)
 #ini servidor
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

@@ -157,7 +157,24 @@ class Ajax{
 				nombre, apellido, cedula, telefono, correo, mes_pagar
 			},
 			success: function(result){
-				alert(result);
+				window.location.href = '/inicio';
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	}
+	// reportar pago de inscripcio, al inscribirun cliente
+	report_pag_cli(json){
+		$.ajax({
+			url: '/report_pag_cli',
+			type: 'POST',
+			data: {
+				json
+			},
+			success: function(result){
+				// window.location.href = '/inicio';
+				// alert(result);
 			},
 			error: function(error){
 				console.log(error);
