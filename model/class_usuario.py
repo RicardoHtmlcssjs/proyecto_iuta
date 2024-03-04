@@ -93,6 +93,25 @@ class Usuarios():
             tr = Db().fetchall("SELECT id_usuario FROM usuarios")
             for row3 in tr:
                 id = row3[0] 
-            # Db().ins("INSERT INTO clientes (fecha_reg, hora_reg, fk_usuario, fec_ultimo_pago, fec_venci)")
+            ult_dia_por_mes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+            dia = datetime.now().strftime("%d")
+            mes = datetime.now().strftime("%m")
+            ano = datetime.now().strftime("%y")
+            mes_vec = int(mes) + int(mes_pagar)
+            if mes_vec > 12:
+                mes_vec = mes_vec - 12
+                ano = int(ano) + 1
+            #
+            if mes_vec == 2 and dia > 28:
+                dia = 28
+            elif (int(mes_vec) == 4 and int(dia) > 30) or (int(mes_vec) == 6 and int(dia) > 30) or (int(mes_vec) == 9 and int(dia) > 30) or (int(mes_vec) == 11 and int(dia) > 30):
+                dia = 30
+            if len(str(mes_vec)) == 1:
+                mes_vec = "0"+str(mes_vec)
+            fec_vec = "20"+str(ano)+"-"+str(mes_vec)+"-"+str(dia)
+            Db().ins("INSERT INTO clientes (fecha_reg, hora_reg, fk_usuario, fec_ultimo_pago, fec_venci) values (now(), now(), "+str(id)+", now(), '"+str(fec_vec)+"')")
+            id_adm = session['id_usu_log']
+            # areglar
+            Db().ins("INSERT INTO pagos (fk_usu_adm, fk_cliente, fec_pago, cant_mes_pag) VALUES ("+str(id_adm)+", "+str(id)+", now(), "+str(mes_pagar)+")")
             res = "cliente registrado"
-        return res
+        return fec_vec
