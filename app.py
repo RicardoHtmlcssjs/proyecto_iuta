@@ -71,12 +71,11 @@ def env_for_agre_cliente():
     mes_pagar = request.form["mes_pagar"]
     Usuarios().ingresar_cliente(nombre, apellido, cedula, telefono, correo, mes_pagar)
     return "1" 
-
-# reportar pago de inscripcion cliente
-# @app.route("/report_pag_cli", methods=["POST"])
-# def report_pag_cli():
-#     j = request.form["json"]
-#     return Usuarios().reportar_pago_cli(j)
+# pago de mensualidad por qcliente
+@app.route("/rep_nue_pag_cli", methods=["POST"])
+def rep_nue_pag_cli():
+    mes_pagar = request.form["mes_pagar"]
+    return Usuarios().reg_nuevo_pag_cli(mes_pagar)
 #ini servidor
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

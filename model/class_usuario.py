@@ -102,8 +102,8 @@ class Usuarios():
             if mes_vec > 12:
                 mes_vec = mes_vec - 12
                 ano = int(ano) + 1
-            #
-            if mes_vec == 2 and dia > 28:
+            
+            if str(mes_vec) == 2 and dia > 28:
                 dia = 28
             elif (int(mes_vec) == 4 and int(dia) > 30) or (int(mes_vec) == 6 and int(dia) > 30) or (int(mes_vec) == 9 and int(dia) > 30) or (int(mes_vec) == 11 and int(dia) > 30):
                 dia = 30
@@ -116,5 +116,25 @@ class Usuarios():
                 id_cli = row4[0]
             id_adm = session['id_usu_log']
             Db().ins("INSERT INTO pagos (fk_usu_adm, fk_cliente, fec_pago, cant_mes_pag) VALUES ("+str(id_adm)+", "+str(id_cli)+", now(), "+str(mes_pagar)+")")
-        return "1"
+            res = "1"
+        return res
+    # registrar en la base de datos el pago del cliente
+    def reg_nuevo_pag_cli(self, mes_pag):
+        dia = datetime.now().strftime("%d")
+        mes = datetime.now().strftime("%m")
+        ano = datetime.now().strftime("%y")
+        mes_vec = int(mes) + int(mes_pag)
+        if mes_vec > 12:
+            mes_vec = mes_vec - 12
+            ano = int(ano) + 1
+
+        if str(mes_vec) == 2 and str(dia) > 28:
+            dia = 28
+        elif (int(mes_vec) == 4 and int(dia) > 30) or (int(mes_vec) == 6 and int(dia) > 30) or (int(mes_vec) == 9 and int(dia) > 30) or (int(mes_vec) == 11 and int(dia) > 30):
+            dia = 30
+        if len(str(mes_vec)) == 1:
+            mes_vec = "0"+str(mes_vec)
+        fec_vec = "20"+str(ano)+"-"+str(mes_vec)+"-"+str(dia)
+        # Db().ins("UPDATE clientes SET")
+        return str(fec_vec) 
         

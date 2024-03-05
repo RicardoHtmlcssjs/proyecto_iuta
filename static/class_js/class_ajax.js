@@ -28,7 +28,7 @@ class Ajax{
                     orderable: true,
                     className: 'text-center',
                     render: function(data, type, row, meta) {
-                        return "<div><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal_sn_para(`/mos_modal1`,`POST`,``,1,``)'><i class='fa-solid fa-money-bill-1-wave'></i></button><button class='btn btn-light btn-sm' onclick='alert("+ row.id_cli +")'><i class='fa-solid fa-user-pen'></i></button></div>";
+                        return "<div><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal_sn_para(`/mos_modal1`,`POST`,``, 0, acciones.agr_pag_cli())'><i class='fa-solid fa-money-bill-1-wave'></i></button><button class='btn btn-light btn-sm' onclick='alert("+ row.id_cli +")'><i class='fa-solid fa-user-pen'></i></button></div>";
                     }
                 }
 			],
@@ -165,16 +165,15 @@ class Ajax{
 		});
 	}
 	// reportar pago de inscripcio, al inscribirun cliente
-	report_pag_cli(json){
+	rep_nue_pag_cli(url, type, mes_pagar){
 		$.ajax({
-			url: '/report_pag_cli',
-			type: 'POST',
+			url: url,
+			type: type,
 			data: {
-				json
+				mes_pagar
 			},
 			success: function(result){
-				// window.location.href = '/inicio';
-				// alert(result);
+				alert(result)
 			},
 			error: function(error){
 				console.log(error);

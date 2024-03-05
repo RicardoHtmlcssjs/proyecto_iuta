@@ -63,6 +63,45 @@ class Acciones{
         modal+="</div>";
         return modal;
     }
+    // modal agregar pago cliente
+    agr_pag_cli(){
+        let modal="";
+       modal+="<div class='modal-dialog modal1' id='mod1'>";
+        modal+="<div class='modal-content' id='mod_cuer'>";
+        modal+="<div class'modal-header'>";
+       modal+="<button type='button' class='btn btn-close bg-danger btn_cerrar_mod1 text-white'"; 
+       modal+="data-bs-dismiss='modal' aria-label='Close'>x</button>";
+       modal+="</div>";
+       modal+="<div class='modal-body'>";
+       modal+="<h2 class='text-center' id='id_tit_mod1'>Reportar pago</h2>";
+       modal+="<form action=''>";
+        modal+=`<div class="mb-3">`;
+        modal+=`<label for="mes_pagar" class="form-label">Meses a pagar:</label>`;
+        modal+=`<select class="form-control" id='mes_pagar' name='mes_pagar' aria-label="Default select example">`;
+        modal+=`<option value="1">1</option>`;
+        modal+=`<option value="2">2</option>`;
+        modal+=`<option value="3">3</option>`;
+        modal+=`<option value="4">4</option>`;
+        modal+=`<option value="5">5</option>`;
+        modal+=`<option value="6">6</option>`;
+        modal+=`<option value="7">7</option>`;
+        modal+=`<option value="8">8</option>`;
+        modal+=`<option value="9">9</option>`;
+        modal+=`<option value="10">10</option>`;
+        modal+=`<option value="11">11</option>`;
+        modal+=`<option value="12">12</option>`;
+        modal+=`</select>`;
+        modal+="</div>";
+        modal+=`<div class="modal-footer justify-content-center">`;
+        modal+=`<button type="button" class="btn btn-danger"  id="agre_solicitar_exp" name="agre_solicitar_exp" onclick="acciones.acc_nue_pag_cli()">Guardar</button>`;
+        modal+="</div>";
+        modal+=`<div class="mb-2" id="error_soli_exp1"></div>`;
+        modal+="</form>";
+        modal+="</div>";
+        modal+="</div>";
+        modal+="</div>";
+        return modal;
+    }
     // mostrar mensaje 
     mos_men(color, mensaje){
         let alerta=`<div class="alert alert-${color} text-center mb-3" role="alert"><b>${mensaje}</b></div>`;
@@ -89,6 +128,10 @@ class Acciones{
             res = true;
         }
         return res;
+    }
+    // envio de formulario agregar nuevo pago del cliente
+    acc_nue_pag_cli(){
+        ajax.rep_nue_pag_cli('/rep_nue_pag_cli', 'POST', $("#mes_pagar").val());
     }
 }
 let acciones = new Acciones();
