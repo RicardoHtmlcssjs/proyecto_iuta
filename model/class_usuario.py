@@ -20,7 +20,7 @@ class Usuarios():
     # mostrar tabla de clientes
     def datos_tabla_json(self):
         json_data = []
-        datos_db = Db().fetchall("SELECT usuarios.id_usuario, usuarios.nombre, usuarios.apellido, usuarios.cedula, usuarios.telefono, usuarios.correo, clientes.fecha_reg, clientes.hora_reg, clientes.fec_venci  FROM usuarios INNER JOIN  clientes ON clientes.fk_usuario = usuarios.id_usuario  WHERE fk_role = 2")
+        datos_db = Db().fetchall("SELECT usuarios.id_usuario, usuarios.nombre, usuarios.apellido, usuarios.cedula, usuarios.telefono, usuarios.correo, clientes.fecha_reg, clientes.hora_reg, clientes.fec_venci, clientes.id_cliente  FROM usuarios INNER JOIN  clientes ON clientes.fk_usuario = usuarios.id_usuario  WHERE fk_role = 2")
         for row in datos_db:
             fecha = str(row[8])
             ult_fec_pag = fecha[0:10]
@@ -39,7 +39,7 @@ class Usuarios():
                 "fec_venci": ult_fec_pag,
                 "status": Usuarios().calculo_estatus(row[8]),
                 "color_status": color,
-                "id_cli": row[0]
+                "id_cli": row[9]
                 })
         return json_data
     # calcular estatus del cliente moroso, advertencia, solvente
@@ -56,24 +56,36 @@ class Usuarios():
         mes_up = fu[5:7]
         dia_up = fu[8:10]
 
-        # Lista con los días de cada mes (considerando años no bisiestos)
-        ult_dia_por_mes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         if ano_up >= ano:
             if int(mes_up) > int(mes):
-                return "Solvente"
-            elif int(mes_up) == int(mes): 
+                print("solvente1")
+                status = "Solvente"
+            elif ano_up > ano and int(mes_up) >= int(mes):
+                status = "Solvente"
+                print("solvente5")
+            elif int(mes_up) == int(mes):  
                 if dia_up >= dia:
                     if int(dia_up) - int(dia) < 4 and int(dia_up) - int(dia) >=0:
                         status = "Advertencia"
+                        print("advertencia1")
                     else:
                         status = "Solvente"
+                        print("solvente2")
                 else:
                     status = "Moroso"
+                    print("moroso1")
+            elif int(mes_up) < int(mes) and ano_up > ano:
+                print("solvente4")
+                status="Solvente"
             else:
-                status = "Moroso"
+                print("moroso22")
+                status="Moroso"
+        elif ano_up > ano and int(mes_up) < int(mes):
+            status= "Solvente"
+            print("solvente3")
         else:
             status = "Moroso"
-        
+            print("moroso3")
         return  status
     # ingresar cliente en la bbdd
     def ingresar_cliente(self, nombre, apellido, cedula, telefono, correo, mes_pagar):
@@ -119,22 +131,37 @@ class Usuarios():
             res = "1"
         return res
     # registrar en la base de datos el pago del cliente
-    def reg_nuevo_pag_cli(self, mes_pag):
+    def reg_nuevo_pag_cli(self, mes_pag, id_cli):
         dia = datetime.now().strftime("%d")
         mes = datetime.now().strftime("%m")
         ano = datetime.now().strftime("%y")
-        mes_vec = int(mes) + int(mes_pag)
+        bus_fec_vec = Db().fetchall("SELECT fec_venci FROM clientes WHERE id_cliente = "+str(id_cli)+"")
+        for row in bus_fec_vec:
+            ult_fec_reg_ven = row[0]
+
+        # formatear fecha
+        fu = str(ult_fec_reg_ven)
+        # año, mes y dia de la ultima feha de pago del cliente
+        ano_up = fu[2:4]
+        mes_up = fu[5:7]
+        dia_up = fu[8:10]
+
+        mes_vec = int(mes_up) + int(mes_pag)
         if mes_vec > 12:
             mes_vec = mes_vec - 12
-            ano = int(ano) + 1
+            ano_up = int(ano_up) + 1
 
-        if str(mes_vec) == 2 and str(dia) > 28:
-            dia = 28
-        elif (int(mes_vec) == 4 and int(dia) > 30) or (int(mes_vec) == 6 and int(dia) > 30) or (int(mes_vec) == 9 and int(dia) > 30) or (int(mes_vec) == 11 and int(dia) > 30):
+        if str(mes_vec) == 2 and str(dia_up) > 28:
+            dia_up = 28
+        elif (int(mes_vec) == 4 and int(dia_up) > 30) or (int(mes_vec) == 6 and int(dia_up) > 30) or (int(mes_vec) == 9 and int(dia_up) > 30) or (int(mes_vec) == 11 and int(dia_up) > 30):
             dia = 30
         if len(str(mes_vec)) == 1:
             mes_vec = "0"+str(mes_vec)
-        fec_vec = "20"+str(ano)+"-"+str(mes_vec)+"-"+str(dia)
-        # Db().ins("UPDATE clientes SET")
-        return str(fec_vec) 
+        fec_vec = "20"+str(ano_up)+"-"+str(mes_vec)+"-"+str(dia_up)
+        fec_vwc_lis = datetime.strptime(fec_vec, "%Y-%m-%d")
+        # fec_vwc_lis = fec_vwc_lis[0:10]
+        Db().ins("UPDATE clientes SET fec_ultimo_pago = now(), fec_venci = '"+str(fec_vwc_lis)+"' WHERE id_cliente = "+str(id_cli)+"")
+        id_adm = session['id_usu_log']
+        Db().ins("INSERT INTO pagos (fk_usu_adm, fk_cliente, fec_pago, cant_mes_pag) VALUES ("+str(id_adm)+", "+str(id_cli)+", now(), "+str(mes_pag)+")")
+        return str(fec_vwc_lis)
         

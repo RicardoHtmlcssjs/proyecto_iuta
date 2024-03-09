@@ -28,7 +28,7 @@ class Ajax{
                     orderable: true,
                     className: 'text-center',
                     render: function(data, type, row, meta) {
-                        return "<div><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal_sn_para(`/mos_modal1`,`POST`,``, 0, acciones.agr_pag_cli())'><i class='fa-solid fa-money-bill-1-wave'></i></button><button class='btn btn-light btn-sm' onclick='alert("+ row.id_cli +")'><i class='fa-solid fa-user-pen'></i></button></div>";
+                        return "<div><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal_sn_para(`/mos_modal1`,`POST`,``, 0, acciones.agr_pag_cli("+row.id_cli+"))'><i class='fa-solid fa-money-bill-1-wave'></i></button><button class='btn btn-light btn-sm' onclick='ajax.mostrar_modal_sn_para(`/mos_modal_editar`,`POST`,``,1, acciones.modal_agregar_cliente())'><i class='fa-solid fa-user-pen'></i></button></div>";
                     }
                 }
 			],
@@ -58,6 +58,14 @@ class Ajax{
 			data: data,
 			success: function(result){
 				if(def==1){
+					$("#exampleModal1").html(modal);
+					$('#mod_cuer').css('padding', '1rem');
+					$("#id_tit_mod1").html("Editar usuario");
+					$("#mes_pagar").css("display","none");
+					$("#lb_mes_pagar").css("display","none");
+					$("#mod_cli_usu").css("display","block");
+					$("#agre_solicitar_exp").css("display", "none");
+					// rep_nue_pag_cli(url, type, mes_pagar, id_cli)
 					$("#exampleModal1").modal('show');
 				}else{
 					$("#exampleModal1").html(modal);
@@ -165,15 +173,16 @@ class Ajax{
 		});
 	}
 	// reportar pago de inscripcio, al inscribirun cliente
-	rep_nue_pag_cli(url, type, mes_pagar){
+	rep_nue_pag_cli(url, type, mes_pagar, id_cli){
 		$.ajax({
 			url: url,
 			type: type,
 			data: {
-				mes_pagar
+				mes_pagar, id_cli
 			},
 			success: function(result){
-				alert(result)
+				window.location='/inicio';
+				console.log("cliente agregado")
 			},
 			error: function(error){
 				console.log(error);
@@ -181,7 +190,25 @@ class Ajax{
 	
 		});
 	}
+	// editar datos del usuario o cliente
+	editar_usuario_cliente(url, type, id_cli){
+		$.ajax({
+			url: url,
+			type: type,
+			data: {
+				id_cli
+			},
+			success: function(result){
+				alert(result);
+				// window.location='/inicio';
+				// console.log("cliente agregado")
+			},
+			error: function(error){
+				console.log(error);
+			}
 	
+		});
+	}
 }
 
 let ajax = new Ajax();

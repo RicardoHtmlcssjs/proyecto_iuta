@@ -37,7 +37,7 @@ class Acciones{
         modal+="</div>";
         modal+="<div class='' id='error_correo' name='error_correo'></div>";
         modal+=`<div class="mb-3">`;
-        modal+=`<label for="mes_pagar" class="form-label">Meses a pagar:</label>`;
+        modal+=`<label for="mes_pagar" class="form-label" id="lb_mes_pagar" name="lb_mes_pagar">Meses a pagar:</label>`;
         modal+=`<select class="form-control" id='mes_pagar' name='mes_pagar' aria-label="Default select example">`;
         modal+=`<option value="1">1</option>`;
         modal+=`<option value="2">2</option>`;
@@ -55,6 +55,7 @@ class Acciones{
         modal+="</div>";
         modal+=`<div class="modal-footer justify-content-center">`;
         modal+=`<button type="button" class="btn btn-danger"  id="agre_solicitar_exp" name="agre_solicitar_exp" onclick="ajax.val_for_agre_cli('/validar_cam_agre_cliente', 'POST', '')">Guardar</button>`;
+        modal+=`<button type="button" class="btn btn-danger"  id="mod_cli_usu" name="mod_cli_usu" onclick="alert();" style="display: none;">Guardar2</button>`;
         modal+="</div>";
         modal+=`<div class="mb-2" id="error_soli_exp1"></div>`;
         modal+="</form>";
@@ -64,7 +65,7 @@ class Acciones{
         return modal;
     }
     // modal agregar pago cliente
-    agr_pag_cli(){
+    agr_pag_cli(id_usu_cli){
         let modal="";
        modal+="<div class='modal-dialog modal1' id='mod1'>";
         modal+="<div class='modal-content' id='mod_cuer'>";
@@ -90,6 +91,9 @@ class Acciones{
         modal+=`<option value="10">10</option>`;
         modal+=`<option value="11">11</option>`;
         modal+=`<option value="12">12</option>`;
+        modal+=`</select>`;
+        modal+=`<select class="form-control" id='id_cli' name='id_cli' aria-label="Default select example" style="display: block;">`;
+        modal+=`<option value="${id_usu_cli}">${id_usu_cli}</option>`;
         modal+=`</select>`;
         modal+="</div>";
         modal+=`<div class="modal-footer justify-content-center">`;
@@ -131,7 +135,7 @@ class Acciones{
     }
     // envio de formulario agregar nuevo pago del cliente
     acc_nue_pag_cli(){
-        ajax.rep_nue_pag_cli('/rep_nue_pag_cli', 'POST', $("#mes_pagar").val());
+        ajax.rep_nue_pag_cli('/rep_nue_pag_cli', 'POST', $("#mes_pagar").val(), $("#id_cli").val());
     }
 }
 let acciones = new Acciones();

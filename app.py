@@ -75,7 +75,13 @@ def env_for_agre_cliente():
 @app.route("/rep_nue_pag_cli", methods=["POST"])
 def rep_nue_pag_cli():
     mes_pagar = request.form["mes_pagar"]
-    return Usuarios().reg_nuevo_pag_cli(mes_pagar)
+    id_cli = request.form["id_cli"]
+    return Usuarios().reg_nuevo_pag_cli(mes_pagar, id_cli)
+# mostrar valores en el modal deeditar usuario
+@app.route("/mos_modal_editar", methods=["POST"])
+def mos_modal_editar():
+    # id_cli = request.method.get["data"]
+    return "hola"
 #ini servidor
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
