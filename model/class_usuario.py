@@ -164,4 +164,52 @@ class Usuarios():
         id_adm = session['id_usu_log']
         Db().ins("INSERT INTO pagos (fk_usu_adm, fk_cliente, fec_pago, cant_mes_pag) VALUES ("+str(id_adm)+", "+str(id_cli)+", now(), "+str(mes_pag)+")")
         return str(fec_vwc_lis)
-        
+    # mostrar datos en un modal al actualizar valores de un cliente
+    def mos_val_cli_edi(self, id_cli): 
+        res = Db().fetchall("SELECT  usuarios.nombre, usuarios.apellido, usuarios.cedula, usuarios.telefono, usuarios.correo, usuarios.usuario, usuarios.contrasena, clientes.id_cliente  FROM usuarios INNER JOIN clientes ON clientes.fk_usuario = usuarios.id_usuario  WHERE id_cliente = "+str(id_cli)+"")
+        return res
+    # verificar si existe yguardar datos a actualizar
+    def gua_act_dat_cli(self, nombre, apellido, cedula, telefono, correo, usuario, id_cli):
+        dat_actuales_cli = Db().fetchall("SELECT  usuarios.nombre, usuarios.apellido, usuarios.cedula, usuarios.telefono, usuarios.correo, usuarios.usuario, usuarios.contrasena, clientes.id_cliente  FROM usuarios INNER JOIN clientes ON clientes.fk_usuario = usuarios.id_usuario  WHERE id_cliente = "+str(id_cli)+"")
+        for row in dat_actuales_cli:
+            cedula_actual = row[2]
+            telefono_actual = row[3]
+            correo_actual = row[4]
+            usuario_actual = row[5]
+        if int(cedula) == int(cedula_actual) and int(telefono) == int(telefono_actual) and str(correo) == str(correo_actual) and str(usuario) == str(usuario_actual):
+            res = "si"
+        else:
+            res = "si"
+            existe_dato = Db().fetchall("SELECT cedula, telefono, correo, usuario FROM usuarios")
+            for row2 in existe_dato:
+                if int(row2[0]) == int(cedula):
+                    if int(row2[0]) == int(cedula_actual):
+                        res = "si"
+                    else:
+                        return "La cedula existe"
+                if int(row2[1]) == int(telefono):
+                    if int(row2[1]) == int(telefono_actual):
+                        res = "si"
+                    else:
+                        return "El telefono existe"
+                if str(row2[2]) == str(correo):
+                    if str(row2[2]) == str(correo_actual):
+                        res = "si"
+                    else:
+                        return "El correo existe"
+                if str(row2[3]) == str(usuario):
+                    if str(row2[3]) == str(usuario_actual):
+                        res = "si"
+                    else:
+                        return "El usuario ya existe"
+        if res == "si":
+            id_usu_editar = Db().fetchall("SELECT usuarios.id_usuario FROM usuarios INNER JOIN clientes ON clientes.fk_usuario = usuarios.id_usuario  WHERE id_cliente = "+str(id_cli)+"")
+            for row3 in id_usu_editar:
+                id_usuario = row3[0]
+            consulta = Db().ins("UPDATE usuarios SET nombre = '"+str(nombre)+"', apellido = '"+str(apellido)+"', cedula = "+str(cedula)+", telefono = "+str(telefono)+", correo = '"+str(correo)+"', usuario = '"+str(usuario)+"' WHERE id_usuario = "+str(id_usuario)+"")
+            if consulta:
+                res = "si"
+            else:
+                res = "Ha ocurrido un error"
+                
+        return res

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, session, redirect, session, jsonify
+import json
 from model.class_usuario import Usuarios
 from model.class_acciones import Acciones
+from model.config import Db
 
 app = Flask(__name__)
 app.secret_key = "abc1234"
@@ -77,11 +79,39 @@ def rep_nue_pag_cli():
     mes_pagar = request.form["mes_pagar"]
     id_cli = request.form["id_cli"]
     return Usuarios().reg_nuevo_pag_cli(mes_pagar, id_cli)
-# mostrar valores en el modal deeditar usuario
+# mostrar valores en el modal a editar usuario
 @app.route("/mos_modal_editar", methods=["POST"])
 def mos_modal_editar():
-    # id_cli = request.method.get["data"]
-    return "hola"
+    if request.method == 'POST':
+        id_cli = request.form["data"]
+        # print(json_data)
+    return Usuarios().mos_val_cli_edi(id_cli)
+# validar campos del modal editar datos del cliente
+@app.route("/val_camp_edi_cli", methods=["POST"])
+def val_camp_edi_cli():
+    if request.method == 'POST':
+        nombre = request.form["nombre"]
+        apellido = request.form["apellido"]
+        cedula = request.form["cedula"]
+        telefono = request.form["telefono"]
+        correo = request.form["correo"]
+        usuario = request.form["usuario"]
+        id_cli = request.form["id_cli"]
+        
+    return str(nombre)
+# actualizar datos del cliente
+@app.route("/gua_act_dat_cli", methods=["POST"])
+def gua_act_dat_cli():
+    if request.method == 'POST':
+        nombre = request.form["nombre"]
+        apellido = request.form["apellido"]
+        cedula = request.form["cedula"]
+        telefono = request.form["telefono"]
+        correo = request.form["correo"]
+        usuario = request.form["usuario"]
+        id_cli = request.form["id_cli"]
+    return Usuarios().gua_act_dat_cli(nombre, apellido, cedula, telefono, correo , usuario, id_cli)
+    
 #ini servidor
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
