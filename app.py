@@ -111,7 +111,18 @@ def gua_act_dat_cli():
         usuario = request.form["usuario"]
         id_cli = request.form["id_cli"]
     return Usuarios().gua_act_dat_cli(nombre, apellido, cedula, telefono, correo , usuario, id_cli)
-    
+# mostrar modal de cambio de contraseña
+@app.route("/mos_modal_cam_contra", methods=["POST"])
+def mos_modal_cam_contra():
+    return "hola"
+# cambiar contraseña y guardarla 
+@app.route("/cam_contra_cli", methods=["POST"])
+def cam_contra_cli():
+    if request.method == 'POST':
+        nue_contra = request.form["nue_contra"]
+        rep_nue_contra = request.form["rep_nue_contra"]
+        id_cli = request.form["id_cli"]
+    return Usuarios().cam_contra_cli(nue_contra, rep_nue_contra, id_cli)
 #ini servidor
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

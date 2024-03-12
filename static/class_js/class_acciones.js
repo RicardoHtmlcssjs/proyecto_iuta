@@ -112,6 +112,38 @@ class Acciones{
         modal+="</div>";
         return modal;
     }
+    modal_cam_contra(id_usu_cli){
+        let modal="";
+       modal+="<div class='modal-dialog modal1' id='mod1'>";
+        modal+="<div class='modal-content' id='mod_cuer'>";
+        modal+="<div class'modal-header'>";
+       modal+="<button type='button' class='btn btn-close bg-danger btn_cerrar_mod1 text-white'"; 
+       modal+="data-bs-dismiss='modal' aria-label='Close'>x</button>";
+       modal+="</div>";
+       modal+="<div class='modal-body'>";
+       modal+="<h2 class='text-center' id='id_tit_mod1'>Cambiar contraseña</h2>";
+       modal+="<form action='' method='POST'>";
+        modal+=`<select class="form-control" id='id_cli' name='id_cli' aria-label="Default select example" style="display: none;">`;
+        modal+=`<option value="${id_usu_cli}">${id_usu_cli}</option>`;
+        modal+=`</select>`;
+        modal+=`<div class="mb-3">`;
+        modal+=`<label for="nue_contra" class="form-label">Nueva contraseña:</label>`;
+        modal+=`<input type="password" class="form-control"  id="nue_contra" name="nue_contra" autocomplete='off' maxlength='25'>`;
+        modal+="</div>";
+        modal+=`<div class="mb-3">`;
+        modal+=`<label for="otra_nue_contra" class="form-label">Ingresa nuevamente la contraseña:</label>`;
+        modal+=`<input type="password" class="form-control"  id="otra_nue_contra" name="otra_nue_contra" autocomplete='off' maxlength='25'>`;
+        modal+="</div>";
+        modal+=`<div class="modal-footer justify-content-center">`;
+        modal+=`<button type="button" class="btn btn-danger"  id="agre_solicitar_exp" name="agre_solicitar_exp" onclick="acciones.val_cam_modal_cam_contra()">Cambiar contraseña</button>`;
+        modal+="</div>";
+        modal+=`<div class="mb-2" id="error_soli_exp1"></div>`;
+        modal+="</form>";
+        modal+="</div>";
+        modal+="</div>";
+        modal+="</div>";
+        return modal;
+    }
     // mostrar mensaje 
     mos_men(color, mensaje){
         let alerta=`<div class="alert alert-${color} text-center mb-3" role="alert"><b>${mensaje}</b></div>`;
@@ -153,6 +185,21 @@ class Acciones{
         let usuario = $("#usuario").val();
         let id_cli =$("#id_cli").val();
         ajax.editar_usuario_cliente("/val_camp_edi_cli", "POST", nombre, apellido, cedula, telefono, correo, usuario, id_cli);
+    }
+    // validar campos del modal cambiar contraseña por el administrador
+    val_cam_modal_cam_contra(){
+        let id_cli = $("#id_cli").val();
+        let nue_contra = $("#nue_contra").val();
+        let rep_nue_contra = $("#otra_nue_contra").val();
+        if(nue_contra.length < 1 || rep_nue_contra.length < 1){
+            $("#error_soli_exp1").html(acciones.mos_men("danger", "Algun campo esta vacio"));
+        }else if(nue_contra.length < 8){
+            $("#error_soli_exp1").html(acciones.mos_men("danger", "La contraseña debe tener entre 8 y 25 caracteres"));
+        }else if(rep_nue_contra != nue_contra){
+            $("#error_soli_exp1").html(acciones.mos_men("danger", "Las contraseñas no coinciden"));
+        }else{
+            ajax.cam_contra_cli("/cam_contra_cli", "POST", nue_contra, rep_nue_contra, id_cli);
+        }
     }
 }
 let acciones = new Acciones();

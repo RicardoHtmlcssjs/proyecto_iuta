@@ -213,3 +213,29 @@ class Usuarios():
                 res = "Ha ocurrido un error"
                 
         return res
+    # cambiar contraseña del usuario como administrador
+    def cam_contra_cli(self, nue_contra, rep_nue_contra, id_cli):
+        dat_actuales_cli = Db().fetchall("SELECT usuarios.contrasena FROM usuarios INNER JOIN clientes ON clientes.fk_usuario = usuarios.id_usuario  WHERE id_cliente = "+str(id_cli)+"")
+        for row in dat_actuales_cli:
+            contra_actual = row[0]
+        res = "si"
+        if str(contra_actual) == str(nue_contra):
+            res = "si"
+        todas_contra = Db().fetchall("SELECT contrasena FROM usuarios")
+        for row2 in todas_contra:
+            if str(row2[0]) == str(nue_contra):
+                if str(row2[0]) == str(contra_actual):
+                    res = "si"
+                else:
+                    return "La contraseña ya existe"
+        
+        if res == "si":
+            id_usu_editar = Db().fetchall("SELECT usuarios.id_usuario FROM usuarios INNER JOIN clientes ON clientes.fk_usuario = usuarios.id_usuario  WHERE id_cliente = "+str(id_cli)+"")
+            for row3 in id_usu_editar:
+                id_usuario = row3[0]
+            consulta = Db().ins("UPDATE usuarios SET contrasena = '"+str(nue_contra)+"' WHERE id_usuario = "+str(id_usuario)+"")
+        if consulta:
+            res = "si"
+        else:
+            res = "Ha ocurrido un error"
+        return res

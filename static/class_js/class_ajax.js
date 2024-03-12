@@ -28,7 +28,7 @@ class Ajax{
                     orderable: true,
                     className: 'text-center',
                     render: function(data, type, row, meta) {
-                        return "<div><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal_sn_para(`/mos_modal1`,`POST`,``, 0, acciones.agr_pag_cli("+row.id_cli+"))'><i class='fa-solid fa-money-bill-1-wave'></i></button><button class='btn btn-light btn-sm' onclick='ajax.mostrar_modal_sn_para(`/mos_modal_editar`,`POST`,"+row.id_cli+",2, acciones.modal_agregar_cliente())'><i class='fa-solid fa-user-pen'></i></button></div>";
+                        return "<div><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal_sn_para(`/mos_modal1`,`POST`,``, 0, acciones.agr_pag_cli("+row.id_cli+"))'><i class='fa-solid fa-money-bill-1-wave'></i></button><button class='btn btn-light btn-sm mr-1' onclick='ajax.mostrar_modal_sn_para(`/mos_modal_editar`,`POST`,"+row.id_cli+",2, acciones.modal_agregar_cliente())'><i class='fa-solid fa-user-pen'></i></button><button class='btn btn-light btn-sm' onclick='ajax.mostrar_modal_sn_para(`/mos_modal_cam_contra`,`POST`,"+row.id_cli+",3, acciones.modal_cam_contra("+row.id_cli+"))'><i class='fa-solid fa-key'></i></button></div>";
                     }
                 }
 			],
@@ -88,6 +88,11 @@ class Ajax{
 					$("#id_cli").val(result[0][7])
 					$("#exampleModal1").modal('show');
 					// alert(result[0][0]);
+				}else if(def == 3){
+					// alert(modal);
+					$("#exampleModal1").html(modal);
+					$('#mod_cuer').css('padding', '1rem');
+					$("#exampleModal1").modal('show');
 				}else{
 					$("#exampleModal1").html(modal);
 					$('#mod_cuer').css('padding', '1rem');
@@ -292,6 +297,27 @@ class Ajax{
 			type: type,
 			data: {
 				nombre, apellido, cedula, telefono, correo, usuario, id_cli
+			},
+			success: function(result){
+				if(result == "si"){
+					window.location.href = '/inicio';
+				}else{
+					$("#error_soli_exp1").html(acciones.mos_men("danger", result));
+				}
+				
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	}
+	// cambiar contraseña por el administrador a un cliente , rep_nue_contra, id_cli
+	cam_contra_cli(url, type, nue_contra, rep_nue_contra, id_cli){
+		$.ajax({
+			url: url,
+			type: type,
+			data: {
+				nue_contra: nue_contra, rep_nue_contra: rep_nue_contra, id_cli: id_cli
 			},
 			success: function(result){
 				if(result == "si"){
