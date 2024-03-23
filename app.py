@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, session, jsonify
+from flask import Flask, render_template, send_file, request, session, redirect, session, jsonify
 import json
 from model.class_usuario import Usuarios
 from model.class_acciones import Acciones
@@ -46,6 +46,10 @@ def inicio():
         else:
             return 'Usuario cliente'
 
+# personal como cliente
+@app.route("/cliente")
+def cliente():
+    return render_template('cliente.html', login=1, administrador=0,titulo_tabla='Mis pagos')
 # personal como administrador
 @app.route("/administrador/personal")
 def administrador_personal():
@@ -124,5 +128,13 @@ def cam_contra_cli():
         id_cli = request.form["id_cli"]
     return Usuarios().cam_contra_cli(nue_contra, rep_nue_contra, id_cli)
 #ini servidor
+# crear reporte en excel todos los clienets
+@app.route("/cre_rep_cli_exc", methods=["GET"])
+def cre_rep_cli_exc():
+    excel = Acciones().reporte_clientes()
+    response = send_file(excel, download_name="reporte_clientes.xlsx", as_attachment=True)
+    response.headers['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    # return redirect("/")
+    return response
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
