@@ -239,3 +239,76 @@ class Usuarios():
         else:
             res = "Ha ocurrido un error"
         return res
+    # obtener datos del cliente que inicio sesion
+    def datos_cliente_sesion(self):
+        datos = Db().fetchall(f"SELECT usuarios.nombre, usuarios.apellido, usuarios.fecha_reg, clientes.fec_venci FROM usuarios INNER JOIN clientes ON usuarios.id_usuario = clientes.fk_usuario WHERE usuarios.id_usuario = {session['id_usu_log']}")
+        return datos
+    # MOSTRAR tabla a los clientes de los pagos realizados
+    def cliente_tabla(self):
+        tab_cli = Db().fetchall(f"select pagos.fec_pago, pagos.cant_mes_pag from pagos INNER JOIN clientes ON pagos.fk_cliente = clientes.id_cliente INNER JOIN usuarios ON clientes.fk_usuario =  usuarios.id_usuario WHERE id_usuario = {session['id_usu_log']}")
+        json_data = []
+        num = 1
+        for row in tab_cli:
+            fecha = str(row[0])
+            ult_fec_pag = fecha[0:10]
+            json_data.append({  
+                "num": num,              
+                "fec_pago": fecha, 
+                "cant_mes_pag": row[1],
+            })
+            num = num + 1
+        return json_data
+    # cambiar contraseña como clinte
+    def cam_contra_cli_mi(self, nue_contra, rep_nue_contra):
+        dat_actuales_cli = Db().fetchall("SELECT contrasena FROM usuarios   WHERE id_usuario = "+str(session['id_usu_log'])+"")
+        for row in dat_actuales_cli:
+            contra_actual = row[0]
+        res = "si"
+        if str(contra_actual) == str(nue_contra):
+            res = "si"
+        todas_contra = Db().fetchall("SELECT contrasena FROM usuarios")
+        for row2 in todas_contra:
+            if str(row2[0]) == str(nue_contra):
+                if str(row2[0]) == str(contra_actual):
+                    res = "si"
+                else:
+                    return "La contraseña ya existe"
+        
+        if res == "si":
+            id_usu_editar = Db().fetchall("SELECT usuarios.id_usuario FROM usuarios INNER JOIN clientes ON clientes.fk_usuario = usuarios.id_usuario  WHERE id_cliente = "+str(session['id_usu_log'])+"")
+            for row3 in id_usu_editar:
+                id_usuario = row3[0]
+            consulta = Db().ins("UPDATE usuarios SET contrasena = '"+str(nue_contra)+"' WHERE id_usuario = "+str(session['id_usu_log'])+"")
+        if consulta:
+            res = "si"
+        else:
+            res = "Ha ocurrido un error"
+        return res
+    # mostrar valores del cliente en el modal cambiar mi informacion
+    def mos_inf_mod_cli(self):
+        query = Db().fetchall("SELECT nombre, apellido, usuario, cedula, telefono, correo FROM usuarios WHERE id_usuario = "+str(session['id_usu_log'])+"")
+        return query
+    def guardar_cam_val_cli_mi_r(self, nombre, apellido, cedula, telefono, correo, usuario): 
+        dat_vi = Db().fetchall("SELECT usuario, cedula, correo FROM usuarios WHERE id_usuario = "+str(session['id_usu_log'])+"")
+        for row in dat_vi:
+            usu_vie = row[0]
+            ced_vie = row[1]
+            cor_vie = row[2]
+        cont = 0
+        ver_tod_cli = Db().fetchall("SELECT usuario, cedula, correo FROM usuarios")
+        for row1 in ver_tod_cli:
+            if row1[0] == usuario:
+                if row1[0] != usu_vie:
+                    return "El usuario ya existe"
+            elif str(row1[1]) == str(cedula):
+                if row1[1] != ced_vie:
+                    return "La cedula ya existe"
+            elif str(row1[2]) == str(correo):
+                if row1[2] != cor_vie:
+                    return "El correo ya existe"
+        consulta = Db().ins("UPDATE usuarios SET nombre = '"+str(nombre)+"', apellido = '"+str(apellido)+"', cedula = "+str(cedula)+", telefono = "+str(telefono)+", correo = '"+str(correo)+"', usuario = '"+str(usuario)+"' WHERE id_usuario = "+str(session['id_usu_log'])+"")
+        if consulta:
+            res = 1
+        else:
+            res = 0
+        return str(res)

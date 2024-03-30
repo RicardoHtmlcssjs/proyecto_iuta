@@ -5,19 +5,19 @@
         <div id='cont_2_tbl'>
             <h1 class="text-center tit_tabla_dt" >{{ titulo_tabla }}</h1>
         </div>
-        <div class="my-2">
-            <button type="button" class="btn btn-dark" id="agr_cli" name="agr_cli" onclick="ajax.mostrar_modal_sn_para(`/mos_modal1`,`POST`,``,0, acciones.modal_agregar_cliente())">Agregar cliente <i class="fa-solid fa-user-plus ml-1"></i></button>
+        <div class="py-3">
+        {% for res in datos %}    
+            <h4><b>Nombre:</b> {{ res[0] }} {{  res[1]}}</h4>
+            <h4><b>Fecha de registro:</b> {{ res[2] }}</h4>
+            <h4><b>Fecha de vencimiento:</b> {{ res[3] }}</h4>
+        {% endfor %}
         </div>
         <table class="table table-dark table-hover table-striped shadow-lg" style='width: 100%;' id='datatable_users'>
             <thead class='thead_tab1'>
                     <tr>
-                        <th class='text-center tit_c_tab1'>Cedula</th>
-                        <th class='text-center tit_c_tab1'>Nombre</th>
-                        <th class='text-center tit_c_tab1'>Telefono</th>
-                        <th class='text-center tit_c_tab1'>Correo</th>
-                        <th class='text-center tit_c_tab1'>Fecha de vencimiento</th>
-                        <th class='text-center tit_c_tab1'>Estatus</th>
-                        <th class='text-center tit_c_tab1'>Acciones</th>
+                        <th class='text-center tit_c_tab1'>Num</th>
+                        <th class='text-center tit_c_tab1'>Fecha de pago</th>
+                        <th class='text-center tit_c_tab1'>Cantidad de meses pagados</th>
                     </tr>
                 </thead>
             <tbody class='tbody_tab1'>

@@ -93,6 +93,16 @@ class Ajax{
 					$("#exampleModal1").html(modal);
 					$('#mod_cuer').css('padding', '1rem');
 					$("#exampleModal1").modal('show');
+				}else if(def == 4){
+					// editar informacion del usuario como administrador
+					$("#exampleModal1").html(modal);
+					$("#nombre").val(result[0][0]);
+					$("#apellido").val(result[0][1]);
+					$("#cedula").val(result[0][3]);
+					$("#telefono").val(result[0][4]);
+					$("#correo").val(result[0][5]);
+					$("#usuario").val(result[0][2]);
+					$("#exampleModal1").modal('show');
 				}else{
 					$("#exampleModal1").html(modal);
 					$('#mod_cuer').css('padding', '1rem');
@@ -332,7 +342,82 @@ class Ajax{
 			}
 		});
 	}
-
+	// mostrar tabla de clientes: pagos realizados
+	cliente(url,type){
+		$('#datatable_users').DataTable({
+			"ajax":{
+				"url": "/mostrar_pag_cli",
+				"type": "POST",
+				"dataSrc":""
+			},
+			"columns":
+			[
+				{"data": "num"},
+				{"data": "fec_pago"},
+				{"data": "cant_mes_pag"},
+			],
+			ordering: true,
+			language: {
+				lengthMenu: "Mostrar _MENU_ registros por pagina",
+				zeroRecords: "Ningun usuario encontrado",
+				info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+				infoEmpty: "Ningun usuario encontrado",
+				infoFiltered: "(filtrados desde _MAX_ registros totales)",
+				search: "Buscar...",
+				loadingRecords: "Cargando...",
+				paginate: {
+					first: "Primero",
+					last: "Ultimo",
+					next: "Siguiente",
+					previous: "Anterior"
+				}
+			}
+		});
+	}
+	// validar si la contraseña es valida se guarda
+	cam_contra_mi_cli(url, type, nue_contra, rep_nue_contra){
+		$.ajax({
+			url: url,
+			type: type,
+			data: {
+				nue_contra: nue_contra, rep_nue_contra: rep_nue_contra
+			},
+			success: function(result){
+				if(result == "si"){
+					window.location.href = '/inicio';
+				}else{
+					$("#error_soli_exp1").html(acciones.mos_men("danger", result));
+				}
+				
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	}
+	
+	// editar mis valores como cliente
+	editar_val_cli(nombre, apellido, cedula, telefono, correo, usuario){
+		$.ajax({
+			url: "/guardar_cam_val_cli_mi",
+			type: "POST",
+			data: {
+				nombre, apellido, cedula, telefono, correo, usuario
+			},
+			success: function(result){
+				if(result == 1){
+					window.location.href = '/inicio';
+				}else if(result == 0){
+					$("#error_soli_exp1").html(acciones.mos_men("danger", "Ha ocurrido un error"));
+				}else{
+					$("#error_soli_exp1").html(acciones.mos_men("danger", result));
+				}		
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	}
 }
 
 let ajax = new Ajax();

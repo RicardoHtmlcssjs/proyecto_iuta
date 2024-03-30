@@ -3,7 +3,7 @@ import psycopg2
 
 class Db:
     def __init__(self):
-        self.connection = connection =  psycopg2.connect(
+        self.connection =  psycopg2.connect(
             host="localhost",
             port="5432",
             database="guerreros_gym",

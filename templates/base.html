@@ -39,16 +39,10 @@
                     <a href="{{ url_for('administrador_personal') }}" class="nav-item nav-link active">Clientes<i class="fa-solid fa-people-group ml-1"></i></a>
                     <a href="{{ url_for('cre_rep_cli_exc') }}" class="nav-item nav-link ">Descargar listado de clientes<i class="fa-solid fa-file-excel ml-1"></i></a>
                     {% endif %}
-                    <!--<a href="about.html" class="nav-item nav-link">About Us</a>
-                    <a href="feature.html" class="nav-item nav-link">Our Features</a>
-                    <a href="class.html" class="nav-item nav-link">Classes</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu text-capitalize">
-                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                            <a href="single.html" class="dropdown-item">Blog Detail</a>
-                        </div>
-                    </div> -->
+                    {% if administrador == 0 %}
+                    <p  class="nav-item nav-link " onclick="acciones.mostrar_mod_inf_cli()">Cambiar perfil<i class="fa-solid fa-file-user ml-1"></i></p>
+                    <p  class="nav-item nav-link" onclick="acciones.mostrar_mod_camcon_cli()">Cambiar contraseña<i class="fa-solid fa-file-pen ml-1"></i></p>
+                    {% endif %}
                     <a href="{{ url_for('cerrar_session') }}" class="nav-item nav-link">Cerrar sesion<i class="fa-solid fa-door-closed ml-1"></i></a>
                 </div>
             </div>
@@ -101,10 +95,9 @@
             <div class="col-md-6 p-0">
                 <div class="gym-class-box d-flex flex-column align-items-start justify-content-center bg-secondary text-left text-white py-5 px-5">
                     <i class="flaticon-bodybuilding"></i>
-                    <h3 class="display-4 mb-3 text-white font-weight-bold">Muscle Building</h3>
+                    <h3 class="display-4 mb-3 text-white font-weight-bold">Construccion de musculos</h3>
                     <p>
-                        Lorem justo tempor sit aliquyam invidunt, amet vero ea dolor ipsum ut diam sit dolores, dolor
-                        sit eos sea sanctus erat lorem nonumy sanctus takimata. Kasd amet sit sadipscing at..
+                        En este gimnasio, esculpimos tu cuerpo con dedicación y esfuerzo, forjando músculos fuertes y definidos que reflejan tu disciplina y compromiso.
                     </p>
                 </div>
             </div>
