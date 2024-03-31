@@ -153,7 +153,7 @@ class Acciones{
     // expresion regular para permitir solo texto
     exp_tex(valor){
         const regex = /[^a-zA-Záéíóúñü ]/g;
-        let res ="";l
+        let res ="";
         if (regex.test(valor)) {
             res = true;
         }else{

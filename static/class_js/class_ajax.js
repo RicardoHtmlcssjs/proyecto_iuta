@@ -217,8 +217,8 @@ class Ajax{
 				mes_pagar, id_cli
 			},
 			success: function(result){
+				// alert(result);
 				window.location='/inicio';
-				console.log("cliente agregado")
 			},
 			error: function(error){
 				console.log(error);

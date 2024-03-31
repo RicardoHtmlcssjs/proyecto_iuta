@@ -139,9 +139,9 @@ class Usuarios():
         for row in bus_fec_vec:
             ult_fec_reg_ven = row[0]
 
-        # formatear fecha
+        # # formatear fecha
         fu = str(ult_fec_reg_ven)
-        # año, mes y dia de la ultima feha de pago del cliente
+        # # año, mes y dia de la ultima feha de pago del cliente
         ano_up = fu[2:4]
         mes_up = fu[5:7]
         dia_up = fu[8:10]
@@ -158,12 +158,13 @@ class Usuarios():
         if len(str(mes_vec)) == 1:
             mes_vec = "0"+str(mes_vec)
         fec_vec = "20"+str(ano_up)+"-"+str(mes_vec)+"-"+str(dia_up)
-        fec_vwc_lis = datetime.strptime(fec_vec, "%Y-%m-%d")
-        # fec_vwc_lis = fec_vwc_lis[0:10]
+        # fec_vwc_lis = datetime.strptime(fec_vec, "%Y-%m-%d")
+        fec_vwc_lis = fec_vec[0:10]
         Db().ins("UPDATE clientes SET fec_ultimo_pago = now(), fec_venci = '"+str(fec_vwc_lis)+"' WHERE id_cliente = "+str(id_cli)+"")
         id_adm = session['id_usu_log']
         Db().ins("INSERT INTO pagos (fk_usu_adm, fk_cliente, fec_pago, cant_mes_pag) VALUES ("+str(id_adm)+", "+str(id_cli)+", now(), "+str(mes_pag)+")")
         return str(fec_vwc_lis)
+        # return "hola1"
     # mostrar datos en un modal al actualizar valores de un cliente
     def mos_val_cli_edi(self, id_cli): 
         res = Db().fetchall("SELECT  usuarios.nombre, usuarios.apellido, usuarios.cedula, usuarios.telefono, usuarios.correo, usuarios.usuario, usuarios.contrasena, clientes.id_cliente  FROM usuarios INNER JOIN clientes ON clientes.fk_usuario = usuarios.id_usuario  WHERE id_cliente = "+str(id_cli)+"")
