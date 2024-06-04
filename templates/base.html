@@ -37,7 +37,7 @@
                 <div class="navbar-nav ml-auto p-4 bg-secondary">
                     {% if administrador == 1 %}
                     <a href="{{ url_for('administrador_personal') }}" class="nav-item nav-link active">Clientes<i class="fa-solid fa-people-group ml-1"></i></a>
-                    <a href="{{ url_for('cre_rep_cli_exc') }}" class="nav-item nav-link ">Descargar listado de clientes<i class="fa-solid fa-file-excel ml-1"></i></a>
+                    <!-- <a href="{{ url_for('cre_rep_cli_exc') }}" class="nav-item nav-link ">Descargar listado de clientes<i class="fa-solid fa-file-excel ml-1"></i></a> -->
                     {% endif %}
                     {% if administrador == 0 %}
                     <p  class="nav-item nav-link " onclick="acciones.mostrar_mod_inf_cli()">Cambiar perfil<i class="fa-solid fa-file-user ml-1"></i></p>
@@ -95,7 +95,7 @@
             <div class="col-md-6 p-0">
                 <div class="gym-class-box d-flex flex-column align-items-start justify-content-center bg-secondary text-left text-white py-5 px-5">
                     <i class="flaticon-bodybuilding"></i>
-                    <h3 class="display-4 mb-3 text-white font-weight-bold">Construccion de musculos</h3>
+                    <h3 class="display-4 mb-3 text-white font-weight-bold">Construcción de músculos</h3>
                     <p>
                         En este gimnasio, esculpimos tu cuerpo con dedicación y esfuerzo, forjando músculos fuertes y definidos que reflejan tu disciplina y compromiso.
                     </p>

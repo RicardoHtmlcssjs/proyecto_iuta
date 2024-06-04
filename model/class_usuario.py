@@ -102,7 +102,7 @@ class Usuarios():
         elif str(cont_exi_cor) == str(correo):
             res = "El correo ya existe"
         else:
-            Db().ins("INSERT INTO usuarios (nombre, apellido, cedula, telefono, fk_role, usuario, correo, hora_reg, fecha_reg, contrasena) VALUES ('"+nombre+"', '"+apellido+"', "+cedula+", "+telefono+", 2, '"+nombre+"', '"+correo+"', now(), now(), '"+nombre+"')")
+            Db().ins("INSERT INTO usuarios (nombre, apellido, cedula, telefono, fk_role, usuario, correo, hora_reg, fecha_reg, contrasena) VALUES ('"+nombre+"', '"+apellido+"', "+cedula+", "+telefono+", 2, '"+cedula+"', '"+correo+"', now(), now(), '"+cedula+"')")
             tr = Db().fetchall("SELECT id_usuario FROM usuarios")
             for row3 in tr:
                 id = row3[0] 
